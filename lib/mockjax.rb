@@ -1,5 +1,5 @@
 require 'rack'
-require 'rspec'
+require 'rspec' if defined? RSpec
 
 require 'mockjax/version'
 require 'mockjax/rails'
@@ -43,10 +43,12 @@ module Mockjax
   end
 end
 
-RSpec.configure do |config|
-  config.include Mockjax::Helpers, :type => :request
+if defined? RSpec
+  RSpec.configure do |config|
+    config.include Mockjax::Helpers, :type => :request
 
-  config.after(:each) do
-    Mockjax.cleanup
+    config.after(:each) do
+      Mockjax.cleanup
+    end
   end
 end
